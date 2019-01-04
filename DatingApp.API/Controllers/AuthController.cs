@@ -68,7 +68,7 @@ namespace DatingApp.API.Controllers
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UsuarioParaLogar model)
-        {
+        {                
             var userExistente = await _authRepository.Login(model.Username.ToLower(),model.Senha);
 
             if (userExistente == null)
@@ -98,7 +98,8 @@ namespace DatingApp.API.Controllers
 
             return Ok(new {
                 token = tokenHandler.WriteToken(token) 
-            });
+            }); 
+
         }
     }
 }
