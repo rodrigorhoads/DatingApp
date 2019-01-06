@@ -1,0 +1,56 @@
+<div class="container mt-4">
+  <div class="row">
+    <h1>{{user.conhecidoComo}} Perfil</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img src="{{user?.photoUrl}}" alt="{{user?.conhecidoComo}}" class="card-img-top img-thumbnail">
+        <div class="card-body">
+          <div>
+              <strong>Location:</strong>
+              <p>{{user?.cidade}}, {{user?.pais}}</p>
+          </div>
+          <div>
+              <strong>Idade:</strong>
+              <p>{{user?.idade}}</p>
+          </div>
+          <div>
+              <strong>Ultima atividade:</strong>
+              <p>{{user?.ultimaAtividade}}</p>
+          </div> 
+          <div>
+              <strong>Membro desde:</strong>
+              <p>{{user?.criado}}</p>
+          </div>
+        </div>
+        <div class="card-footer d-flex"> 
+          <button class="btn btn-primary m-2 w-100">Like</button>
+          <button class="btn btn-success m-2 w-100">Mensagem</button>
+        </div>
+      </div>  
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="member-tabset">
+          <tab heading="About {{user?.conhecidoComo}}">
+            <h4>Descrição</h4>
+            <p>{{user?.introducao}}</p>
+            <h4>Procurando Por:</h4>
+            <p>{{user?.procurandoPor}}</p>
+          </tab>
+          <tab heading="Interesses">
+            <h4>Interesses</h4>
+            <p>{{user?.interesses}}</p>
+          </tab>
+          <tab heading="Photos">            
+            <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+          </tab>
+          <tab heading="Mensagens">
+            <p>Mensagens irão aqui</p>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>
