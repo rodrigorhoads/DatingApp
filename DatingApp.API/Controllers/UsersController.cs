@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DatingApp.API.DTO;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System;
 
 namespace DatingApp.API.Controllers
 {
@@ -41,5 +43,24 @@ namespace DatingApp.API.Controllers
 
             return Ok(ususarioParaRetornar);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserParaUpdatesDTO userParaUpdates)
+        {
+            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var userFormRepo = await _datingRepository.GetUser(id);
+
+            _mapper.Map(userParaUpdates, userFormRepo);
+
+            if (await _datingRepository.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Atualização do usuario {id} falhou");
+        }
+
     }
 }

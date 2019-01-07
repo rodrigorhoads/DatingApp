@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { RouterModule } from '@angular/router';
 import {NgxGalleryModule} from 'ngx-gallery';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 import { AppComponent } from './app.component';
@@ -27,6 +28,11 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberListResolver } from './resolver/member-list.resolver';
 import { MemberDetailResolver } from './resolver/member-detail.resolver.1';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './resolver/member-edit.resolver.2';
+import { PreventUnsavedChanges } from './_guards/prevents-unsaved-changes-guard';
+import { PhotoeditComponent } from './members/photoedit/photoedit.component';
+
 
 
    export function tokenGetter() {
@@ -44,7 +50,9 @@ import { MemberDetailResolver } from './resolver/member-detail.resolver.1';
       ListsComponent,
       MessagesComponent,
       MemberCardComponent,
-      MemberDetailComponent
+      MemberDetailComponent,
+      MemberEditComponent,
+      PhotoeditComponent
    ],
    imports: [
       BrowserModule,
@@ -54,6 +62,7 @@ import { MemberDetailResolver } from './resolver/member-detail.resolver.1';
       TabsModule.forRoot( ),
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
+      FileUploadModule,
       JwtModule.forRoot({
          config: {
           tokenGetter: tokenGetter,
@@ -69,7 +78,9 @@ import { MemberDetailResolver } from './resolver/member-detail.resolver.1';
       AuthGuard,
       UserService,
       MemberDetailResolver,
-      MemberListResolver
+      MemberListResolver,
+      MemberEditResolver,
+      PreventUnsavedChanges
    ],
    bootstrap: [
       AppComponent
