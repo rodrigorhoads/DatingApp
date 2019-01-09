@@ -40,8 +40,8 @@ login(model: any) {
   );
 }
 
-register(model: any) {
-  return this.http.post(this.baseUrl + 'registrar', model);
+register(user: User) {
+  return this.http.post(this.baseUrl + 'registrar', user);
 }
 
 loggedIn() {

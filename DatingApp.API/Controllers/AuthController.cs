@@ -60,14 +60,11 @@ namespace DatingApp.API.Controllers
                 return BadRequest("Esse nome de usuário já está sendo usado");
             }
 
-            var novoUsuario = new User
-            {
-                Nome = model.Username
-            };
-
+            var novoUsuario = _mapper.Map<User>(model);
             var usuarioCriado =await _authRepository.Register(novoUsuario,model.Senha);
+            var userForReturn = _mapper.Map<UserParaDetalhesDTO>(usuarioCriado);
 
-            return StatusCode(201);
+            return CreatedAtRoute("GetUser", new{ controller = "Users", id = usuarioCriado.Id },userForReturn);
         }
 
 

@@ -5,7 +5,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
     
-      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      
         <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
           <li class="nav-item active"  routerLinkActive="active">
             <a class="nav-link" [routerLink]="['/members']" >Matches </a>
@@ -20,7 +20,7 @@
     
         <div *ngIf="loggedIn()" class="dropdown" dropdown>
           <span class="mr-2">
-            <img src="{{photoUrl}}" alt="">
+            <img src="{{photoUrl || '/../../assets/user.png'}}" alt="">
           </span>
           <a class="dropdown-toggle text-light" dropdownToggle>
             Bem Vindo {{authService.decodeToken?.unique_name}}
@@ -45,7 +45,7 @@
           </form>
     
       </div>
-  </div>
+  
 
 
 </nav>
