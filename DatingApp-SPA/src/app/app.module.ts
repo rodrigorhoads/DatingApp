@@ -16,10 +16,11 @@ import { HomeComponent } from './home/home.component';
 import { RegistroComponent } from './registro/registro.component';
 import { ErrorInterceptorProvide } from './_services/error.Interceptor';
 import { AlertifyService } from './_services/alertify.service';
-import { BsDropdownModule, TabsModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
+import {TimeAgoPipe} from 'time-ago-pipe';
 
 import { appRoutes } from './routes';
 import { AuthGuard } from './_guards/auth.guard';
@@ -52,7 +53,8 @@ import { PhotoeditComponent } from './members/photoedit/photoedit.component';
       MemberCardComponent,
       MemberDetailComponent,
       MemberEditComponent,
-      PhotoeditComponent
+      PhotoeditComponent,
+      TimeAgoPipe
    ],
    imports: [
       BrowserModule,
@@ -61,7 +63,9 @@ import { PhotoeditComponent } from './members/photoedit/photoedit.component';
       ReactiveFormsModule,
       BsDropdownModule.forRoot(),
       BsDatepickerModule.forRoot(),
+      PaginationModule.forRoot(),
       TabsModule.forRoot( ),
+      ButtonsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
       FileUploadModule,

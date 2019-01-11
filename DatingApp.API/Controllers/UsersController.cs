@@ -7,9 +7,11 @@ using DatingApp.API.DTO;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System;
+using DatingApp.API.Helpers;
 
 namespace DatingApp.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -24,15 +26,35 @@ namespace DatingApp.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// correto com o video
+        /// </summary>
+        /// <param name="userParams"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
-            var users = await _datingRepository.GetUsers();
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var userFromRepo = await _datingRepository.GetUser(currentUserId);
+
+            var users = await _datingRepository.GetUsers(userParams);
+
+            userParams.UserId = currentUserId;
+
+            if (string.IsNullOrEmpty(userParams.Genero))
+            {
+                userParams.Genero = userFromRepo.Genero == "male" ? "female"  : "male";
+            }
 
             var ususariosParaRetornar = _mapper.Map<IEnumerable<UserParaListarDTO>>(users);
 
+            Response.AddPagination(users.CurrentPage,users.PageSize,users.TotalCount,users.TotalPages);
+
             return Ok(ususariosParaRetornar);
         }
+
+
         
         [HttpGet("{id}", Name ="GetUser")]
         public async Task<IActionResult> GetUser(int id)
