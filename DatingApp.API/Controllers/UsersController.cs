@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System;
 using DatingApp.API.Helpers;
+using DatingApp.API.Models;
 
 namespace DatingApp.API.Controllers
 {
@@ -36,11 +37,11 @@ namespace DatingApp.API.Controllers
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var userFromRepo = await _datingRepository.GetUser(currentUserId);
-
-            var users = await _datingRepository.GetUsers(userParams);
+            var userFromRepo = await _datingRepository.GetUser(currentUserId);            
 
             userParams.UserId = currentUserId;
+
+            var users = await _datingRepository.GetUsers(userParams);
 
             if (string.IsNullOrEmpty(userParams.Genero))
             {
@@ -69,10 +70,9 @@ namespace DatingApp.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserParaUpdatesDTO userParaUpdates)
         {
-            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            {
+            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))            
                 return Unauthorized();
-            }
+            
 
             var userFormRepo = await _datingRepository.GetUser(id);
 
@@ -82,6 +82,35 @@ namespace DatingApp.API.Controllers
                 return NoContent();
 
             throw new Exception($"Atualização do usuario {id} falhou");
+        }
+
+
+        [HttpPost("{id}/Like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recipientId)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var like = await _datingRepository.GetLike(id, recipientId);
+
+            if (like != null)            
+                return BadRequest("Você já deu um like para esse usuário");
+
+            if (await _datingRepository.GetUser(recipientId) == null)
+                return NotFound();
+
+            like = new Like
+            {
+                LikerId = id,
+                LikeeId = recipientId
+            };
+
+            _datingRepository.Add<Like>(like);
+
+            if (await _datingRepository.SaveAll())
+                return Ok();
+
+            return BadRequest("Falha para dar o like para o usuario ");
         }
 
     }

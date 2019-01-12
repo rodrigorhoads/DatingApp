@@ -33,6 +33,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './resolver/member-edit.resolver.2';
 import { PreventUnsavedChanges } from './_guards/prevents-unsaved-changes-guard';
 import { PhotoeditComponent } from './members/photoedit/photoedit.component';
+import { ListResolver } from './resolver/lists.resolver';
 
 
 
@@ -86,7 +87,8 @@ import { PhotoeditComponent } from './members/photoedit/photoedit.component';
       MemberDetailResolver,
       MemberListResolver,
       MemberEditResolver,
-      PreventUnsavedChanges
+      PreventUnsavedChanges,
+      ListResolver
    ],
    bootstrap: [
       AppComponent
