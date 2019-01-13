@@ -34,6 +34,8 @@ import { MemberEditResolver } from './resolver/member-edit.resolver.2';
 import { PreventUnsavedChanges } from './_guards/prevents-unsaved-changes-guard';
 import { PhotoeditComponent } from './members/photoedit/photoedit.component';
 import { ListResolver } from './resolver/lists.resolver';
+import { MessagesResolver } from './resolver/messages.resolver';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 
 
@@ -49,6 +51,7 @@ import { ListResolver } from './resolver/lists.resolver';
       HomeComponent,
       RegistroComponent,
       MemberListComponent,
+      MemberMessagesComponent,
       ListsComponent,
       MessagesComponent,
       MemberCardComponent,
@@ -88,7 +91,8 @@ import { ListResolver } from './resolver/lists.resolver';
       MemberListResolver,
       MemberEditResolver,
       PreventUnsavedChanges,
-      ListResolver
+      ListResolver,
+      MessagesResolver
    ],
    bootstrap: [
       AppComponent

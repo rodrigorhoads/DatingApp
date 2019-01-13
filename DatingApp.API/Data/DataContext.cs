@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace DatingApp.API.Data
 {
-    public class DataContext:DbContext
+    public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options):base(options){}
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-            public DbSet<Values> Values { get; set; }        
-            public DbSet<User> Users {get;set;}
-            public DbSet<Photo> Photos { get; set; }
-            public DbSet<Like> Likes { get; set; }
+        public DbSet<Values> Values { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Message> Messages { get; set; }
+
 
         /// <summary>
         /// u = User
@@ -26,7 +28,7 @@ namespace DatingApp.API.Data
         {
             modelBuilder.Entity<Like>()
                 .HasKey(k => new { k.LikerId, k.LikeeId });
-            
+
             modelBuilder.Entity<Like>()
                 .HasOne(l => l.Likee)
                 .WithMany(u => u.Likers)
@@ -41,7 +43,18 @@ namespace DatingApp.API.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>()
-                .HasKey(u => new { u.Id });
+                .Property(u => u.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(u => u.MessageSent)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Recipient)
+                .WithMany(u => u.MessageReceived)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
